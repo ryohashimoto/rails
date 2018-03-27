@@ -409,6 +409,14 @@ module ActiveSupport
       end
     end
 
+    def back(options)
+      if options.values_at(:years, :weeks, :months, :days).any?
+        method_missing(:back, options)
+      else
+        utc.back(options).in_time_zone(time_zone)
+      end
+    end
+
     %w(year mon month day mday wday yday hour min sec usec nsec to_date).each do |method_name|
       class_eval <<-EOV, __FILE__, __LINE__ + 1
         def #{method_name}    # def month

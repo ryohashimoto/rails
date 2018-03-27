@@ -184,6 +184,14 @@ class Time
     end
   end
 
+  def back(options)
+    new_options = {}
+    %i(years months weeks days hours minutes seconds).each do |key|
+      new_options[key] = -options[key] unless options[key].nil?
+    end
+    advance(new_options)
+  end
+
   # Returns a new Time representing the time a number of seconds ago, this is basically a wrapper around the Numeric extension
   def ago(seconds)
     since(-seconds)

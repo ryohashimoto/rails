@@ -120,6 +120,14 @@ class Date
     d
   end
 
+  def back(options)
+    new_options = {}
+    %i(years months weeks days).each do |key|
+      new_options[key] = -options[key] unless options[key].nil?
+    end
+    advance(new_options)
+  end
+
   # Returns a new Date where one or more of the elements have been changed according to the +options+ parameter.
   # The +options+ parameter is a hash with a combination of these keys: <tt>:year</tt>, <tt>:month</tt>, <tt>:day</tt>.
   #

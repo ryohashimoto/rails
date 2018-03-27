@@ -100,6 +100,14 @@ class DateTime
     end
   end
 
+  def back(options)
+    new_options = {}
+    %i(years months weeks days hours minutes seconds).each do |key|
+      new_options[key] = -options[key] unless options[key].nil?
+    end
+    advance(new_options)
+  end
+
   # Returns a new DateTime representing the time a number of seconds ago.
   # Do not use this method in combination with x.months, use months_ago instead!
   def ago(seconds)

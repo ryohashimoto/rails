@@ -210,6 +210,24 @@ class DateTimeExtCalculationsTest < ActiveSupport::TestCase
     assert_equal DateTime.civil(2010, 3, 29), DateTime.civil(2010, 2, 28, 22, 58, 59).advance(months: 1, hours: 1, minutes: 1, seconds: 1)
   end
 
+  def test_back
+    assert_equal DateTime.civil(2004, 2, 28, 15, 15, 10),  DateTime.civil(2005, 2, 28, 15, 15, 10).back(years: 1)
+    assert_equal DateTime.civil(2004, 10, 28, 15, 15, 10),  DateTime.civil(2005, 2, 28, 15, 15, 10).back(months: 4)
+    assert_equal DateTime.civil(2005, 3, 21, 15, 15, 10),  DateTime.civil(2005, 2, 28, 15, 15, 10).back(weeks: 3)
+    assert_equal DateTime.civil(2005, 3, 5, 15, 15, 10),   DateTime.civil(2005, 2, 28, 15, 15, 10).back(days: 5)
+    assert_equal DateTime.civil(2012, 9, 28, 15, 15, 10),  DateTime.civil(2005, 2, 28, 15, 15, 10).back(years: 7, months: 7)
+    assert_equal DateTime.civil(2013, 10, 3, 15, 15, 10),  DateTime.civil(2005, 2, 28, 15, 15, 10).back(years: 7, months: 19, days: 5)
+    assert_equal DateTime.civil(2013, 10, 17, 15, 15, 10), DateTime.civil(2005, 2, 28, 15, 15, 10).back(years: 7, months: 19, weeks: 2, days: 5)
+    assert_equal DateTime.civil(2001, 12, 27, 15, 15, 10), DateTime.civil(2005, 2, 28, 15, 15, 10).back(years: -3, months: -2, days: -1)
+    assert_equal DateTime.civil(2005, 2, 28, 15, 15, 10),  DateTime.civil(2004, 2, 29, 15, 15, 10).back(years: 1) # leap day plus one year
+    assert_equal DateTime.civil(2005, 2, 28, 20, 15, 10),  DateTime.civil(2005, 2, 28, 15, 15, 10).back(hours: 5)
+    assert_equal DateTime.civil(2005, 2, 28, 15, 22, 10),  DateTime.civil(2005, 2, 28, 15, 15, 10).back(minutes: 7)
+    assert_equal DateTime.civil(2005, 2, 28, 15, 15, 19),  DateTime.civil(2005, 2, 28, 15, 15, 10).back(seconds: 9)
+    assert_equal DateTime.civil(2005, 2, 28, 20, 22, 19),  DateTime.civil(2005, 2, 28, 15, 15, 10).back(hours: 5, minutes: 7, seconds: 9)
+    assert_equal DateTime.civil(2005, 2, 28, 10, 8, 1),    DateTime.civil(2005, 2, 28, 15, 15, 10).back(hours: -5, minutes: -7, seconds: -9)
+    assert_equal DateTime.civil(2013, 10, 17, 20, 22, 19), DateTime.civil(2005, 2, 28, 15, 15, 10).back(years: 7, months: 19, weeks: 2, days: 5, hours: 5, minutes: 7, seconds: 9)
+  end
+
   def test_last_week
     assert_equal DateTime.civil(2005, 2, 21), DateTime.civil(2005, 3, 1, 15, 15, 10).last_week
     assert_equal DateTime.civil(2005, 2, 22), DateTime.civil(2005, 3, 1, 15, 15, 10).last_week(:tuesday)
